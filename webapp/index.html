@@ -440,7 +440,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo-icon">🧠</div>
+            <div class="logo-icon"></div>
             <h1>UI - Universal Intelligence</h1>
             <p class="username" id="username">@user</p>
         </div>
@@ -453,7 +453,7 @@
                     <span class="arrow">›</span>
                 </div>
                 <div class="menu-item" data-page="cart">
-                    <span class="icon"><span class="cart-badge-wrap"><span class="cart-badge" id="cart-badge">0</span></span></span>
+                    <span class="icon"><span class="cart-badge-wrap">🛒<span class="cart-badge" id="cart-badge">0</span></span></span>
                     <span class="text">Корзина</span>
                     <span class="arrow">›</span>
                 </div>
@@ -493,14 +493,14 @@
         <div class="screen" id="screen-catalog">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">️ Каталог</div>
+                <div class="screen-title">🗂️ Каталог</div>
             </div>
             <div class="categories-grid" id="categories-grid"></div>
         </div>
 
         <div class="screen" id="screen-products">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('catalog')"> Назад</button>
+                <button class="back-btn" onclick="showScreen('catalog')">◀ Назад</button>
                 <div class="screen-title" id="category-title">Категория</div>
             </div>
             <div class="products-list" id="products-list"></div>
@@ -509,15 +509,15 @@
         <div class="screen" id="screen-cart">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title"> Корзина</div>
+                <div class="screen-title">🛒 Корзина</div>
             </div>
             <div id="cart-items"></div>
             <div class="cart-total" id="cart-total" style="display: none;">
                 <div class="cart-total-text">Итого: <span id="total-sum">0</span> ₽</div>
-                <button class="checkout-btn" onclick="openCheckout()">📦 Оформить заказ</button>
+                <button class="checkout-btn" onclick="openCheckout()"> Оформить заказ</button>
             </div>
             <div class="empty-state" id="cart-empty">
-                <div class="empty-icon">🛒</div>
+                <div class="empty-icon"></div>
                 <p>Корзина пуста</p>
                 <p class="hint">Добавь товары из каталога</p>
             </div>
@@ -559,7 +559,7 @@
                 <p style="color: #667eea; font-weight: 600;">Обычно это занимает 5-15 минут.</p>
                 <div class="order-details" id="order-details"></div>
                 <p style="font-size: 13px;">Ты получишь уведомление в Telegram, когда заказ будет подтверждён.</p>
-                <button class="btn-home" onclick="showScreen('main')"> Вернуться в магазин</button>
+                <button class="btn-home" onclick="showScreen('main')">🏠 Вернуться в магазин</button>
             </div>
         </div>
 
@@ -581,7 +581,7 @@
                 <div class="screen-title">🕐 История</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon"></div>
+                <div class="placeholder-icon">🕐</div>
                 <p>История заказов пуста</p>
             </div>
         </div>
@@ -603,7 +603,7 @@
                 <div class="screen-title">🔗 Реф-система</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon">🔗</div>
+                <div class="placeholder-icon"></div>
                 <p>Твоя ссылка:</p>
                 <p class="hint" id="ref-link">Загрузка...</p>
             </div>
@@ -611,7 +611,7 @@
 
         <div class="screen" id="screen-news">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
+                <button class="back-btn" onclick="showScreen('main')"> Назад</button>
                 <div class="screen-title">🔔 Новости</div>
             </div>
             <div class="placeholder">
@@ -623,7 +623,7 @@
         <div class="screen" id="screen-support">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">️ Тех-поддержка</div>
+                <div class="screen-title">🛠️ Тех-поддержка</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">💬</div>
@@ -662,8 +662,8 @@
 
         const catalog = {
             categories: [
-                { id: 'soft', name: 'Софт', icon: '' },
-                { id: 'accounts', name: 'Аккаунты', icon: '' },
+                { id: 'soft', name: 'Софт', icon: '💻' },
+                { id: 'accounts', name: 'Аккаунты', icon: '👤' },
                 { id: 'courses', name: 'Курсы', icon: '📚' },
                 { id: 'subscriptions', name: 'Подписки', icon: '⭐' },
             ],
@@ -679,7 +679,7 @@
                     { id: 6, name: 'Python с нуля', desc: 'Полный курс', price: 2000, icon: '🐍' },
                 ],
                 subscriptions: [
-                    { id: 8, name: 'Netflix Premium', desc: '30 дней', price: 400, icon: '🎬' },
+                    { id: 8, name: 'Netflix Premium', desc: '30 дней', price: 400, icon: '' },
                 ],
             }
         };
@@ -826,12 +826,13 @@
         function copyCardNumber() {
             const cardNumber = document.getElementById('card-number').textContent;
             navigator.clipboard.writeText(cardNumber).then(function() {
-                showNotification(' Номер карты скопирован!');
+                showNotification('📋 Номер карты скопирован!');
             }).catch(function() {
                 showNotification('❌ Не удалось скопировать');
             });
         }
 
+        // 🔧 ИСПРАВЛЕННАЯ ФУНКЦИЯ ДЛЯ МОБИЛЬНЫХ
         function confirmPayment() {
             const total = cart.reduce((sum, item) => sum + item.price, 0);
             
@@ -850,7 +851,8 @@
                     window.Telegram.WebApp.sendData(JSON.stringify(orderData));
                     console.log('✅ sendData вызван');
                     
-                    // Явно закрываем Mini App через 300ms (важно для мобильных!)
+                    // ВАЖНО: Явно закрываем Mini App через небольшую задержку
+                    // Это критично для мобильных устройств!
                     setTimeout(function() {
                         window.Telegram.WebApp.close();
                         console.log('✅ Mini App закрыт');
