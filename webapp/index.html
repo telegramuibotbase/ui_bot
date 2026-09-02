@@ -514,7 +514,7 @@
             <div id="cart-items"></div>
             <div class="cart-total" id="cart-total" style="display: none;">
                 <div class="cart-total-text">Итого: <span id="total-sum">0</span> ₽</div>
-                <button class="checkout-btn" onclick="openCheckout()"> Оформить заказ</button>
+                <button class="checkout-btn" onclick="openCheckout()">📦 Оформить заказ</button>
             </div>
             <div class="empty-state" id="cart-empty">
                 <div class="empty-icon">🛒</div>
@@ -559,14 +559,14 @@
                 <p style="color: #667eea; font-weight: 600;">Обычно это занимает 5-15 минут.</p>
                 <div class="order-details" id="order-details"></div>
                 <p style="font-size: 13px;">Ты получишь уведомление в Telegram, когда заказ будет подтверждён.</p>
-                <button class="btn-home" onclick="showScreen('main')">🏠 Вернуться в магазин</button>
+                <button class="btn-home" onclick="showScreen('main')"> Вернуться в магазин</button>
             </div>
         </div>
 
         <div class="screen" id="screen-subscriptions">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title"> Мои подписки</div>
+                <div class="screen-title">📋 Мои подписки</div>
             </div>
             <div class="empty-state">
                 <div class="empty-icon">📭</div>
@@ -581,7 +581,7 @@
                 <div class="screen-title">🕐 История</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon">🕐</div>
+                <div class="placeholder-icon"></div>
                 <p>История заказов пуста</p>
             </div>
         </div>
@@ -589,7 +589,7 @@
         <div class="screen" id="screen-tutorials">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title"> Туториалы</div>
+                <div class="screen-title">📝 Туториалы</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">📚</div>
@@ -615,7 +615,7 @@
                 <div class="screen-title">🔔 Новости</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon"></div>
+                <div class="placeholder-icon">📰</div>
                 <p>Новостей пока нет</p>
             </div>
         </div>
@@ -623,7 +623,7 @@
         <div class="screen" id="screen-support">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">🛠️ Тех-поддержка</div>
+                <div class="screen-title">️ Тех-поддержка</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">💬</div>
@@ -662,8 +662,8 @@
 
         const catalog = {
             categories: [
-                { id: 'soft', name: 'Софт', icon: '💻' },
-                { id: 'accounts', name: 'Аккаунты', icon: '👤' },
+                { id: 'soft', name: 'Софт', icon: '' },
+                { id: 'accounts', name: 'Аккаунты', icon: '' },
                 { id: 'courses', name: 'Курсы', icon: '📚' },
                 { id: 'subscriptions', name: 'Подписки', icon: '⭐' },
             ],
@@ -834,17 +834,44 @@
 
         function confirmPayment() {
             const total = cart.reduce((sum, item) => sum + item.price, 0);
-            tg.sendData(JSON.stringify({
+            
+            const orderData = {
                 action: 'create_order',
                 items: cart,
                 total: total,
                 payment_method: 'card'
-            }));
+            };
+            
+            console.log('📤 Отправляю данные боту:', orderData);
+            
+            if (window.Telegram && window.Telegram.WebApp) {
+                console.log('✅ Telegram WebApp доступен');
+                
+                try {
+                    window.Telegram.WebApp.sendData(JSON.stringify(orderData));
+                    console.log('✅ sendData вызван успешно');
+                } catch (error) {
+                    console.error(' Ошибка при sendData:', error);
+                    alert('Ошибка при отправке данных. Попробуй ещё раз.');
+                    return;
+                }
+            } else {
+                console.error('❌ Telegram WebApp не доступен!');
+                alert('Ошибка: Mini App работает вне Telegram');
+                return;
+            }
+            
             const orderDetails = document.getElementById('order-details');
-            orderDetails.innerHTML = '<h3>Твой заказ:</h3>' + cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') + '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
+            orderDetails.innerHTML = '<h3>Твой заказ:</h3>' + 
+                cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') + 
+                '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
+            
             cart = [];
             updateCartBadge();
-            showScreen('waiting');
+            
+            setTimeout(function() {
+                showScreen('waiting');
+            }, 500);
         }
 
         console.log('✅ Mini App загружен!');
