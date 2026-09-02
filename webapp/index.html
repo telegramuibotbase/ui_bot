@@ -296,7 +296,6 @@
         }
         .placeholder-icon { font-size: 60px; margin-bottom: 15px; }
 
-        /* Оформление заказа */
         .checkout-info {
             background: #17212b;
             border-radius: 12px;
@@ -369,7 +368,6 @@
             margin-top: 10px;
         }
 
-        /* Экран ожидания подтверждения */
         .waiting-screen {
             text-align: center;
             padding: 40px 20px;
@@ -447,7 +445,6 @@
             <p class="username" id="username">@user</p>
         </div>
 
-        <!-- ГЛАВНОЕ МЕНЮ -->
         <div class="screen active" id="screen-main">
             <div class="menu">
                 <div class="menu-item" data-page="catalog">
@@ -456,10 +453,7 @@
                     <span class="arrow">›</span>
                 </div>
                 <div class="menu-item" data-page="cart">
-                    <span class="icon cart-badge-wrap">
-                        
-                        <span class="cart-badge" id="cart-badge">0</span>
-                    </span>
+                    <span class="icon"><span class="cart-badge-wrap">🛒<span class="cart-badge" id="cart-badge">0</span></span></span>
                     <span class="text">Корзина</span>
                     <span class="arrow">›</span>
                 </div>
@@ -496,16 +490,14 @@
             </div>
         </div>
 
-        <!-- КАТАЛОГ -->
         <div class="screen" id="screen-catalog">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">️ Каталог</div>
+                <div class="screen-title">🗂️ Каталог</div>
             </div>
             <div class="categories-grid" id="categories-grid"></div>
         </div>
 
-        <!-- ТОВАРЫ -->
         <div class="screen" id="screen-products">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('catalog')">◀ Назад</button>
@@ -514,7 +506,6 @@
             <div class="products-list" id="products-list"></div>
         </div>
 
-        <!-- КОРЗИНА -->
         <div class="screen" id="screen-cart">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
@@ -523,7 +514,7 @@
             <div id="cart-items"></div>
             <div class="cart-total" id="cart-total" style="display: none;">
                 <div class="cart-total-text">Итого: <span id="total-sum">0</span> ₽</div>
-                <button class="checkout-btn" onclick="openCheckout()">📦 Оформить заказ</button>
+                <button class="checkout-btn" onclick="openCheckout()"> Оформить заказ</button>
             </div>
             <div class="empty-state" id="cart-empty">
                 <div class="empty-icon">🛒</div>
@@ -532,64 +523,50 @@
             </div>
         </div>
 
-        <!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
         <div class="screen" id="screen-checkout">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('cart')"> Назад</button>
+                <button class="back-btn" onclick="showScreen('cart')">◀ Назад</button>
                 <div class="screen-title">💳 Оплата</div>
             </div>
-            
             <div class="checkout-info">
                 <h3>Реквизиты для оплаты</h3>
-                
                 <div class="requisites-box">
                     <div class="requisites-label">Получатель:</div>
                     <div class="requisites-value">Иван Иванов</div>
                 </div>
-                
                 <div class="requisites-box">
                     <div class="requisites-label">Номер карты:</div>
                     <div class="requisites-value" id="card-number">4567 8901 2345 6789</div>
-                    <button class="copy-btn" onclick="copyCardNumber()"> Скопировать номер</button>
+                    <button class="copy-btn" onclick="copyCardNumber()">📋 Скопировать номер</button>
                 </div>
-                
                 <div class="requisites-box">
                     <div class="requisites-label">Сумма к оплате:</div>
                     <div class="requisites-value" style="color: #667eea; font-size: 20px;" id="checkout-amount">0 ₽</div>
                 </div>
-                
                 <p style="color: #8b949e; font-size: 13px; margin: 15px 0; line-height: 1.5;">
-                    ️ После перевода нажми кнопку ниже. Мы проверим поступление и подтвердим заказ в течение 15 минут.
+                    ⏳ После перевода нажми кнопку ниже. Мы проверим поступление и подтвердим заказ в течение 15 минут.
                 </p>
-                
                 <button class="btn-paid" onclick="confirmPayment()">✅ Я оплатил</button>
                 <button class="btn-cancel" onclick="showScreen('cart')">Отмена</button>
             </div>
         </div>
 
-        <!-- ОЖИДАНИЕ ПОДТВЕРЖДЕНИЯ -->
         <div class="screen" id="screen-waiting">
             <div class="waiting-screen">
                 <div class="waiting-icon">⏳</div>
                 <h2>Заказ создан!</h2>
                 <p>Мы получили твой заказ и проверяем поступление оплаты.</p>
                 <p style="color: #667eea; font-weight: 600;">Обычно это занимает 5-15 минут.</p>
-                
                 <div class="order-details" id="order-details"></div>
-                
-                <p style="font-size: 13px;">
-                    Ты получишь уведомление в Telegram, когда заказ будет подтверждён.
-                </p>
-                
+                <p style="font-size: 13px;">Ты получишь уведомление в Telegram, когда заказ будет подтверждён.</p>
                 <button class="btn-home" onclick="showScreen('main')">🏠 Вернуться в магазин</button>
             </div>
         </div>
 
-        <!-- ЗАГЛУШКИ -->
         <div class="screen" id="screen-subscriptions">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">📋 Мои подписки</div>
+                <div class="screen-title"> Мои подписки</div>
             </div>
             <div class="empty-state">
                 <div class="empty-icon">📭</div>
@@ -601,7 +578,7 @@
         <div class="screen" id="screen-history">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title"> История</div>
+                <div class="screen-title">🕐 История</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">🕐</div>
@@ -612,7 +589,7 @@
         <div class="screen" id="screen-tutorials">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">📝 Туториалы</div>
+                <div class="screen-title"> Туториалы</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">📚</div>
@@ -623,7 +600,7 @@
         <div class="screen" id="screen-referral">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title"> Реф-система</div>
+                <div class="screen-title">🔗 Реф-система</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">🔗</div>
@@ -638,14 +615,14 @@
                 <div class="screen-title">🔔 Новости</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon">📰</div>
+                <div class="placeholder-icon"></div>
                 <p>Новостей пока нет</p>
             </div>
         </div>
 
         <div class="screen" id="screen-support">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"> Назад</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">🛠️ Тех-поддержка</div>
             </div>
             <div class="placeholder">
@@ -655,7 +632,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ТОВАРА -->
     <div class="modal" id="product-modal">
         <div class="modal-content">
             <div class="modal-icon" id="modal-icon"></div>
@@ -668,7 +644,6 @@
         </div>
     </div>
 
-    <!-- УВЕДОМЛЕНИЕ -->
     <div class="notification" id="notification">
         <span class="notification-icon">✅</span>
         <span id="notification-text">Товар добавлен!</span>
@@ -740,12 +715,8 @@
                 const count = catalog.products[cat.id]?.length || 0;
                 const card = document.createElement('div');
                 card.className = 'category-card';
-                card.innerHTML = `
-                    <div class="category-icon">${cat.icon}</div>
-                    <div class="category-name">${cat.name}</div>
-                    <div class="category-count">${count} товаров</div>
-                `;
-                card.onclick = () => showProducts(cat.id);
+                card.innerHTML = '<div class="category-icon">' + cat.icon + '</div><div class="category-name">' + cat.name + '</div><div class="category-count">' + count + ' товаров</div>';
+                card.onclick = function() { showProducts(cat.id); };
                 grid.appendChild(card);
             });
         }
@@ -759,22 +730,15 @@
             products.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-icon">${p.icon}</div>
-                    <div class="product-info">
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-desc">${p.desc}</div>
-                    </div>
-                    <div class="product-price">${p.price} ₽</div>
-                `;
-                card.onclick = () => openProduct(p, category);
+                card.innerHTML = '<div class="product-icon">' + p.icon + '</div><div class="product-info"><div class="product-name">' + p.name + '</div><div class="product-desc">' + p.desc + '</div></div><div class="product-price">' + p.price + ' ₽</div>';
+                card.onclick = function() { openProduct(p, category); };
                 list.appendChild(card);
             });
             showScreen('products');
         }
 
         function openProduct(product, category) {
-            currentProduct = { ...product, category };
+            currentProduct = { product: product, category: category };
             document.getElementById('modal-icon').textContent = product.icon;
             document.getElementById('modal-title').textContent = product.name;
             document.getElementById('modal-category').textContent = category.icon + ' ' + category.name;
@@ -794,7 +758,7 @@
 
         document.getElementById('modal-buy').onclick = function() {
             if (currentProduct && !isAdding) {
-                addToCart(currentProduct);
+                addToCart(currentProduct.product);
             }
         };
 
@@ -805,18 +769,18 @@
         function addToCart(product) {
             if (isAdding) return;
             isAdding = true;
-            cart.push({...product, cartId: Date.now()});
+            cart.push({id: product.id, name: product.name, desc: product.desc, price: product.price, icon: product.icon, cartId: Date.now()});
             updateCartBadge();
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            showNotification(`✅ ${product.name} добавлен в корзину!`);
-            setTimeout(() => { closeModal(); isAdding = false; }, 1000);
+            showNotification('✅ ' + product.name + ' добавлен в корзину!');
+            setTimeout(function() { closeModal(); isAdding = false; }, 1000);
         }
 
         function showNotification(text) {
             const notification = document.getElementById('notification');
             document.getElementById('notification-text').textContent = text;
             notification.classList.add('show');
-            setTimeout(() => { notification.classList.remove('show'); }, 2500);
+            setTimeout(function() { notification.classList.remove('show'); }, 2500);
         }
 
         function removeFromCart(cartId) {
@@ -847,16 +811,7 @@
             }
             emptyBlock.style.display = 'none';
             totalBlock.style.display = 'block';
-            container.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-icon">${item.icon}</div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">${item.price} ₽</div>
-                    </div>
-                    <button class="cart-remove" onclick="removeFromCart(${item.cartId})">✕</button>
-                </div>
-            `).join('');
+            container.innerHTML = cart.map(item => '<div class="cart-item"><div class="cart-item-icon">' + item.icon + '</div><div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-price">' + item.price + ' ₽</div></div><button class="cart-remove" onclick="removeFromCart(' + item.cartId + ')">✕</button></div>').join('');
             const total = cart.reduce((sum, item) => sum + item.price, 0);
             document.getElementById('total-sum').textContent = total;
         }
@@ -870,44 +825,25 @@
 
         function copyCardNumber() {
             const cardNumber = document.getElementById('card-number').textContent;
-            navigator.clipboard.writeText(cardNumber).then(() => {
+            navigator.clipboard.writeText(cardNumber).then(function() {
                 showNotification('📋 Номер карты скопирован!');
-            }).catch(() => {
+            }).catch(function() {
                 showNotification('❌ Не удалось скопировать');
             });
         }
 
         function confirmPayment() {
             const total = cart.reduce((sum, item) => sum + item.price, 0);
-            
-            // Отправляем данные боту
             tg.sendData(JSON.stringify({
                 action: 'create_order',
                 items: cart,
                 total: total,
                 payment_method: 'card'
             }));
-            
-            // Показываем экран ожидания
             const orderDetails = document.getElementById('order-details');
-            orderDetails.innerHTML = `
-                <h3>Твой заказ:</h3>
-                ${cart.map(item => `
-                    <div class="order-item">
-                        <span>${item.icon} ${item.name}</span>
-                        <span>${item.price} ₽</span>
-                    </div>
-                `).join('')}
-                <div class="order-total">
-                    <span>Итого:</span>
-                    <span>${total} ₽</span>
-                </div>
-            `;
-            
-            // Очищаем корзину
+            orderDetails.innerHTML = '<h3>Твой заказ:</h3>' + cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') + '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
             cart = [];
             updateCartBadge();
-            
             showScreen('waiting');
         }
 
