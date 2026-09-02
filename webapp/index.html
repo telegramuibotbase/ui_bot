@@ -77,6 +77,7 @@
         .menu-item:nth-child(5) { animation-delay: 0.25s; }
         .menu-item:nth-child(6) { animation-delay: 0.3s; }
         .menu-item:nth-child(7) { animation-delay: 0.35s; }
+        .menu-item:nth-child(8) { animation-delay: 0.4s; }
 
         /* Экраны */
         .screen { display: none; }
@@ -92,12 +93,15 @@
             background: #17212b;
             border: none;
             color: #667eea;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             margin-right: 12px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .back-btn:hover { background: #242f3d; }
@@ -168,6 +172,7 @@
             margin-bottom: 10px;
             display: flex; align-items: center;
             border: 1px solid #242f3d;
+            animation: slideIn 0.3s ease;
         }
 
         .cart-item-icon { font-size: 28px; margin-right: 12px; }
@@ -269,12 +274,17 @@
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s;
             margin-bottom: 10px;
         }
 
         .modal-buy:hover { transform: scale(1.02); }
         .modal-buy:active { transform: scale(0.98); }
+        .modal-buy:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .modal-close-btn {
             width: 100%;
@@ -287,11 +297,39 @@
             cursor: pointer;
         }
 
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 2000;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification-icon {
+            font-size: 20px;
+        }
+
         /* Бейдж корзины */
-        .cart-badge-wrap { position: relative; }
+        .cart-badge-wrap { position: relative; display: inline-block; }
         .cart-badge {
             position: absolute;
-            top: -6px; right: -10px;
+            top: -8px; right: -12px;
             background: #ff4757;
             color: white;
             font-size: 11px;
@@ -301,6 +339,7 @@
             display: none;
             align-items: center; justify-content: center;
             padding: 0 5px;
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
         }
         .cart-badge.show { display: flex; }
 
@@ -316,7 +355,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo-icon"></div>
+            <div class="logo-icon">🧠</div>
             <h1>UI - Universal Intelligence</h1>
             <p class="username" id="username">@user</p>
         </div>
@@ -336,6 +375,7 @@
                 </div>
                 <div class="menu-item" data-page="cart">
                     <span class="icon cart-badge-wrap">
+                        🛒
                         <span class="cart-badge" id="cart-badge">0</span>
                     </span>
                     <span class="text">Корзина</span>
@@ -372,7 +412,7 @@
         <!-- ЭКРАН КАТАЛОГА (категории) -->
         <div class="screen" id="screen-catalog">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">🗂️ Каталог</div>
             </div>
             <div class="categories-grid" id="categories-grid"></div>
@@ -381,7 +421,7 @@
         <!-- ЭКРАН ТОВАРОВ КАТЕГОРИИ -->
         <div class="screen" id="screen-products">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('catalog')">◀</button>
+                <button class="back-btn" onclick="showScreen('catalog')"> Назад</button>
                 <div class="screen-title" id="category-title">Категория</div>
             </div>
             <div class="products-list" id="products-list"></div>
@@ -390,8 +430,8 @@
         <!-- ЭКРАН КОРЗИНЫ -->
         <div class="screen" id="screen-cart">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"></button>
-                <div class="screen-title">🛒 Корзина</div>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
+                <div class="screen-title"> Корзина</div>
             </div>
             <div id="cart-items"></div>
             <div class="cart-total" id="cart-total" style="display: none;">
@@ -399,7 +439,7 @@
                 <button class="checkout-btn" onclick="checkout()">Оформить заказ</button>
             </div>
             <div class="empty-state" id="cart-empty">
-                <div class="empty-icon">🛒</div>
+                <div class="empty-icon"></div>
                 <p>Корзина пуста</p>
                 <p class="hint">Добавь товары из каталога</p>
             </div>
@@ -408,11 +448,11 @@
         <!-- ЭКРАН ПОДПИСОК -->
         <div class="screen" id="screen-subscriptions">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"></button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">📋 Мои подписки</div>
             </div>
             <div class="empty-state">
-                <div class="empty-icon"></div>
+                <div class="empty-icon">📭</div>
                 <p>У тебя пока нет активных подписок</p>
                 <p class="hint">Купи товар в каталоге, чтобы получить подписку</p>
             </div>
@@ -421,7 +461,7 @@
         <!-- ЗАГЛУШКИ ДЛЯ ДРУГИХ РАЗДЕЛОВ -->
         <div class="screen" id="screen-history">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">🕐 История</div>
             </div>
             <div class="placeholder">
@@ -432,11 +472,11 @@
 
         <div class="screen" id="screen-tutorials">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">📝 Туториалы</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon"></div>
+                <div class="placeholder-icon">📚</div>
                 <p>Раздел в разработке</p>
                 <p class="hint">Скоро здесь появятся обучающие материалы</p>
             </div>
@@ -444,8 +484,8 @@
 
         <div class="screen" id="screen-referral">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
-                <div class="screen-title">🔗 Реф-система</div>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
+                <div class="screen-title"> Реф-система</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">🔗</div>
@@ -456,8 +496,8 @@
 
         <div class="screen" id="screen-news">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
-                <div class="screen-title"> Новости</div>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
+                <div class="screen-title">🔔 Новости</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">📰</div>
@@ -468,7 +508,7 @@
 
         <div class="screen" id="screen-support">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">🛠️ Тех-поддержка</div>
             </div>
             <div class="placeholder">
@@ -490,6 +530,12 @@
             <button class="modal-buy" id="modal-buy">🛒 Добавить в корзину</button>
             <button class="modal-close-btn" onclick="closeModal()">Закрыть</button>
         </div>
+    </div>
+
+    <!-- УВЕДОМЛЕНИЕ -->
+    <div class="notification" id="notification">
+        <span class="notification-icon">✅</span>
+        <span id="notification-text">Товар добавлен!</span>
     </div>
 
     <script>
@@ -522,11 +568,11 @@
                     { id: 5, name: 'Discord Nitro', desc: 'Nitro на 1 месяц, моментальная выдача.', price: 350, icon: '💬' },
                 ],
                 courses: [
-                    { id: 6, name: 'Python с нуля', desc: 'Полный курс Python: от основ до профи.', price: 2000, icon: '' },
+                    { id: 6, name: 'Python с нуля', desc: 'Полный курс Python: от основ до профи.', price: 2000, icon: '🐍' },
                     { id: 7, name: 'Telegram Боты', desc: 'Создание ботов на aiogram 3.x.', price: 1500, icon: '🤖' },
                 ],
                 subscriptions: [
-                    { id: 8, name: 'Netflix Premium', desc: 'Личный аккаунт Netflix на 30 дней.', price: 400, icon: '🎬' },
+                    { id: 8, name: 'Netflix Premium', desc: 'Личный аккаунт Netflix на 30 дней.', price: 400, icon: '' },
                     { id: 9, name: 'Spotify Premium', desc: 'Spotify без рекламы на месяц.', price: 250, icon: '🎵' },
                     { id: 10, name: 'YouTube Premium', desc: 'YouTube без рекламы + Music.', price: 300, icon: '▶️' },
                 ],
@@ -535,6 +581,7 @@
 
         let cart = [];
         let currentProduct = null;
+        let isAdding = false;
 
         // НАВИГАЦИЯ МЕЖДУ ЭКРАНАМИ
         function showScreen(name) {
@@ -619,13 +666,19 @@
 
         // ОТКРЫТЬ ТОВАР
         function openProduct(product, category) {
-            currentProduct = product;
+            currentProduct = { ...product, category };
             document.getElementById('modal-icon').textContent = product.icon;
             document.getElementById('modal-title').textContent = product.name;
             document.getElementById('modal-category').textContent = category.icon + ' ' + category.name;
             document.getElementById('modal-desc').textContent = product.desc;
             document.getElementById('modal-price').textContent = product.price + ' ₽';
             document.getElementById('product-modal').classList.add('active');
+            
+            // Сброс кнопки
+            const buyBtn = document.getElementById('modal-buy');
+            buyBtn.disabled = false;
+            buyBtn.textContent = '🛒 Добавить в корзину';
+            isAdding = false;
         }
 
         function closeModal() {
@@ -634,9 +687,8 @@
         }
 
         document.getElementById('modal-buy').onclick = function() {
-            if (currentProduct) {
+            if (currentProduct && !isAdding) {
                 addToCart(currentProduct);
-                closeModal();
             }
         };
 
@@ -644,16 +696,41 @@
             if (e.target === this) closeModal();
         };
 
-        // КОРЗИНА
+        // КОРЗИНА С УВЕДОМЛЕНИЕМ
         function addToCart(product) {
+            if (isAdding) return;
+            isAdding = true;
+            
+            const buyBtn = document.getElementById('modal-buy');
+            buyBtn.disabled = true;
+            buyBtn.textContent = '⏳ Добавляю...';
+            
             cart.push({...product, cartId: Date.now()});
             updateCartBadge();
-            tg.HapticFeedback?.notificationOccurred('success');
-            tg.showPopup?.({
-                title: '✅ Добавлено!',
-                message: `${product.name} добавлен в корзину`,
-                buttons: [{type: 'ok'}]
-            });
+            
+            // Вибрация
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+            
+            // Показываем уведомление
+            showNotification(`✅ ${product.name} добавлен в корзину!`);
+            
+            // Закрываем модалку через 1 секунду
+            setTimeout(() => {
+                closeModal();
+                isAdding = false;
+            }, 1000);
+        }
+
+        function showNotification(text) {
+            const notification = document.getElementById('notification');
+            document.getElementById('notification-text').textContent = text;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2500);
         }
 
         function removeFromCart(cartId) {
