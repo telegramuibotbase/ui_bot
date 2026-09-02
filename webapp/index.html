@@ -453,7 +453,7 @@
                     <span class="arrow">›</span>
                 </div>
                 <div class="menu-item" data-page="cart">
-                    <span class="icon"><span class="cart-badge-wrap">🛒<span class="cart-badge" id="cart-badge">0</span></span></span>
+                    <span class="icon"><span class="cart-badge-wrap"><span class="cart-badge" id="cart-badge">0</span></span></span>
                     <span class="text">Корзина</span>
                     <span class="arrow">›</span>
                 </div>
@@ -492,15 +492,15 @@
 
         <div class="screen" id="screen-catalog">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"> Назад</button>
-                <div class="screen-title">🗂️ Каталог</div>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
+                <div class="screen-title">️ Каталог</div>
             </div>
             <div class="categories-grid" id="categories-grid"></div>
         </div>
 
         <div class="screen" id="screen-products">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('catalog')">◀ Назад</button>
+                <button class="back-btn" onclick="showScreen('catalog')"> Назад</button>
                 <div class="screen-title" id="category-title">Категория</div>
             </div>
             <div class="products-list" id="products-list"></div>
@@ -509,7 +509,7 @@
         <div class="screen" id="screen-cart">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">🛒 Корзина</div>
+                <div class="screen-title"> Корзина</div>
             </div>
             <div id="cart-items"></div>
             <div class="cart-total" id="cart-total" style="display: none;">
@@ -559,17 +559,17 @@
                 <p style="color: #667eea; font-weight: 600;">Обычно это занимает 5-15 минут.</p>
                 <div class="order-details" id="order-details"></div>
                 <p style="font-size: 13px;">Ты получишь уведомление в Telegram, когда заказ будет подтверждён.</p>
-                <button class="btn-home" onclick="showScreen('main')">🏠 Вернуться в магазин</button>
+                <button class="btn-home" onclick="showScreen('main')"> Вернуться в магазин</button>
             </div>
         </div>
 
         <div class="screen" id="screen-subscriptions">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"> Назад</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">📋 Мои подписки</div>
             </div>
             <div class="empty-state">
-                <div class="empty-icon"></div>
+                <div class="empty-icon">📭</div>
                 <p>У тебя пока нет активных подписок</p>
                 <p class="hint">Купи товар в каталоге</p>
             </div>
@@ -581,18 +581,18 @@
                 <div class="screen-title">🕐 История</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon">🕐</div>
+                <div class="placeholder-icon"></div>
                 <p>История заказов пуста</p>
             </div>
         </div>
 
         <div class="screen" id="screen-tutorials">
             <div class="screen-header">
-                <button class="back-btn" onclick="showScreen('main')"> Назад</button>
+                <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
                 <div class="screen-title">📝 Туториалы</div>
             </div>
             <div class="placeholder">
-                <div class="placeholder-icon"></div>
+                <div class="placeholder-icon">📚</div>
                 <p>Раздел в разработке</p>
             </div>
         </div>
@@ -623,7 +623,7 @@
         <div class="screen" id="screen-support">
             <div class="screen-header">
                 <button class="back-btn" onclick="showScreen('main')">◀ Назад</button>
-                <div class="screen-title">🛠️ Тех-поддержка</div>
+                <div class="screen-title">️ Тех-поддержка</div>
             </div>
             <div class="placeholder">
                 <div class="placeholder-icon">💬</div>
@@ -639,7 +639,7 @@
             <div class="modal-category" id="modal-category"></div>
             <div class="modal-desc" id="modal-desc"></div>
             <div class="modal-price" id="modal-price"></div>
-            <button class="modal-buy" id="modal-buy"> Добавить в корзину</button>
+            <button class="modal-buy" id="modal-buy">🛒 Добавить в корзину</button>
             <button class="modal-close-btn" onclick="closeModal()">Закрыть</button>
         </div>
     </div>
@@ -662,8 +662,8 @@
 
         const catalog = {
             categories: [
-                { id: 'soft', name: 'Софт', icon: '💻' },
-                { id: 'accounts', name: 'Аккаунты', icon: '👤' },
+                { id: 'soft', name: 'Софт', icon: '' },
+                { id: 'accounts', name: 'Аккаунты', icon: '' },
                 { id: 'courses', name: 'Курсы', icon: '📚' },
                 { id: 'subscriptions', name: 'Подписки', icon: '⭐' },
             ],
@@ -673,7 +673,7 @@
                     { id: 2, name: 'Telegram Bot Template', desc: 'Готовый шаблон бота', price: 300, icon: '🤖' },
                 ],
                 accounts: [
-                    { id: 4, name: 'Steam Аккаунт', desc: '50+ игр', price: 1500, icon: '' },
+                    { id: 4, name: 'Steam Аккаунт', desc: '50+ игр', price: 1500, icon: '🎮' },
                 ],
                 courses: [
                     { id: 6, name: 'Python с нуля', desc: 'Полный курс', price: 2000, icon: '🐍' },
@@ -826,7 +826,7 @@
         function copyCardNumber() {
             const cardNumber = document.getElementById('card-number').textContent;
             navigator.clipboard.writeText(cardNumber).then(function() {
-                showNotification('📋 Номер карты скопирован!');
+                showNotification(' Номер карты скопирован!');
             }).catch(function() {
                 showNotification('❌ Не удалось скопировать');
             });
@@ -846,27 +846,22 @@
             
             if (window.Telegram && window.Telegram.WebApp) {
                 try {
+                    // Отправляем данные боту
                     window.Telegram.WebApp.sendData(JSON.stringify(orderData));
-                    console.log('✅ sendData вызван успешно');
+                    console.log('✅ sendData вызван');
                     
-                    const orderDetails = document.getElementById('order-details');
-                    orderDetails.innerHTML = '<h3>Твой заказ:</h3>' + 
-                        cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') + 
-                        '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
-                    
-                    cart = [];
-                    updateCartBadge();
-                    
+                    // Явно закрываем Mini App через 300ms (важно для мобильных!)
                     setTimeout(function() {
-                        showScreen('waiting');
-                    }, 500);
+                        window.Telegram.WebApp.close();
+                        console.log('✅ Mini App закрыт');
+                    }, 300);
                     
                 } catch (error) {
                     console.error('❌ Ошибка при sendData:', error);
                     alert('Ошибка при отправке данных: ' + error.message + '\n\nПожалуйста, сделайте скриншот корзины и отправьте его в поддержку @ui_shop_bot');
                 }
             } else {
-                alert('Ошибка: Mini App работает только внутри приложения Telegram!');
+                alert('Ошибка: Mini App работает только внутри Telegram!');
             }
         }
 
