@@ -14,7 +14,7 @@
             min-height: 100vh;
         }
         .container { max-width: 500px; margin: 0 auto; padding: 20px; }
-        
+
         .header { text-align: center; margin-bottom: 25px; }
         .logo-icon {
             width: 80px; height: 80px; margin: 0 auto 15px;
@@ -833,46 +833,50 @@
         }
 
         function confirmPayment() {
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            
-            const orderData = {
-                action: 'create_order',
-                items: cart,
-                total: total,
-                payment_method: 'card'
-            };
-            
-            console.log('📤 Отправляю данные боту:', orderData);
-            
-            if (window.Telegram && window.Telegram.WebApp) {
-                console.log('✅ Telegram WebApp доступен');
-                
-                try {
-                    window.Telegram.WebApp.sendData(JSON.stringify(orderData));
-                    console.log('✅ sendData вызван успешно');
-                } catch (error) {
-                    console.error(' Ошибка при sendData:', error);
-                    alert('Ошибка при отправке данных. Попробуй ещё раз.');
-                    return;
-                }
-            } else {
-                console.error('❌ Telegram WebApp не доступен!');
-                alert('Ошибка: Mini App работает вне Telegram');
-                return;
-            }
-            
-            const orderDetails = document.getElementById('order-details');
-            orderDetails.innerHTML = '<h3>Твой заказ:</h3>' + 
-                cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') + 
-                '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
-            
-            cart = [];
-            updateCartBadge();
-            
-            setTimeout(function() {
-                showScreen('waiting');
-            }, 500);
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+    const orderData = {
+        action: 'create_order',
+        items: cart,
+        total: total,
+        payment_method: 'card'
+    };
+
+    console.log('📤 Отправляю данные боту:', orderData);
+
+    if (window.Telegram && window.Telegram.WebApp) {
+        console.log('✅ Telegram WebApp доступен');
+        console.log(' Версия Telegram WebApp:', window.Telegram.WebApp.version);
+
+        try {
+            // sendData ЗАКРЫВАЕТ Mini App — это нормально!
+            window.Telegram.WebApp.sendData(JSON.stringify(orderData));
+            console.log('✅ sendData вызван успешно — Mini App закроется');
+        } catch (error) {
+            console.error('❌ Ошибка при sendData:', error);
+            alert('Ошибка при отправке данных: ' + error.message);
+            return;
         }
+    } else {
+        console.error('❌ Telegram WebApp не доступен!');
+        alert('Ошибка: Mini App работает только в Telegram');
+        return;
+    }
+
+    // Этот код НЕ выполнится потому что Mini App закроется
+    // Но оставим на всякий случай
+    const orderDetails = document.getElementById('order-details');
+    orderDetails.innerHTML = '<h3>Твой заказ:</h3>' +
+        cart.map(item => '<div class="order-item"><span>' + item.icon + ' ' + item.name + '</span><span>' + item.price + ' ₽</span></div>').join('') +
+        '<div class="order-total"><span>Итого:</span><span>' + total + ' ₽</span></div>';
+
+    cart = [];
+    updateCartBadge();
+
+    setTimeout(function() {
+        showScreen('waiting');
+    }, 500);
+}
 
         console.log('✅ Mini App загружен!');
     </script>
