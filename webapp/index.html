@@ -2,149 +2,331 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UI Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UI - Universal Intelligence</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #0e1621;
-            color: white;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
             padding: 20px;
         }
-        .header { text-align: center; margin-bottom: 30px; }
-        .logo {
-            width: 80px; height: 80px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 40px;
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 10px;
         }
-        h1 {
+
+        .logo {
+            margin-bottom: 15px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .header h1 {
             font-size: 22px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-weight: 600;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            background-clip: text;
         }
-        .username { color: #8b949e; font-size: 14px; }
-        .tabs {
-            display: flex; gap: 8px;
-            background: #17212b;
-            padding: 6px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .tab {
-            flex: 1; padding: 10px;
-            text-align: center;
-            font-size: 13px;
+
+        .username {
             color: #8b949e;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
+            font-size: 14px;
         }
-        .tab.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-        .page { display: none; }
-        .page.active { display: block; }
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .category-card {
+
+        .menu {
             background: #17212b;
             border-radius: 12px;
-            padding: 20px;
-            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
             cursor: pointer;
-            border: 1px solid #242f3d;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #242f3d;
         }
-        .category-card:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
+
+        .menu-item:last-child {
+            border-bottom: none;
         }
-        .category-icon { font-size: 32px; margin-bottom: 8px; }
-        .category-name { font-size: 14px; font-weight: 600; }
-        .category-count { font-size: 12px; color: #8b949e; margin-top: 4px; }
+
+        .menu-item:hover {
+            background: #242f3d;
+        }
+
+        .menu-item:active {
+            background: #2b3a4a;
+            transform: scale(0.98);
+        }
+
+        .icon {
+            font-size: 22px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .text {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #8b949e;
+            font-weight: 300;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item {
+            animation: slideIn 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        .menu-item:nth-child(1) { animation-delay: 0.05s; }
+        .menu-item:nth-child(2) { animation-delay: 0.1s; }
+        .menu-item:nth-child(3) { animation-delay: 0.15s; }
+        .menu-item:nth-child(4) { animation-delay: 0.2s; }
+        .menu-item:nth-child(5) { animation-delay: 0.25s; }
+        .menu-item:nth-child(6) { animation-delay: 0.3s; }
+        .menu-item:nth-child(7) { animation-delay: 0.35s; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #17212b;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+            border: 1px solid #667eea;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 20px;
+        }
+
+        .modal-content p {
+            color: #8b949e;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .close-btn:active {
+            transform: scale(0.98);
+        }
     </style>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">🧠</div>
-        <h1>UI - Universal Intelligence</h1>
-        <p class="username" id="username">@user</p>
-    </div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+            </div>
+            <h1>UI - Universal Intelligence</h1>
+            <p class="username" id="username">@user</p>
+        </div>
 
-    <div class="tabs">
-        <div class="tab active" onclick="showTab('catalog')">Каталог</div>
-        <div class="tab" onclick="showTab('cart')">Корзина</div>
-        <div class="tab" onclick="showTab('subs')">Подписки</div>
-        <div class="tab" onclick="showTab('profile')">Профиль</div>
-    </div>
+        <div class="menu">
+            <div class="menu-item" data-page="subscriptions">
+                <span class="icon">📋</span>
+                <span class="text">Мои подписки</span>
+                <span class="arrow">›</span>
+            </div>
 
-    <div class="page active" id="page-catalog">
-        <div class="categories">
-            <div class="category-card">
-                <div class="category-icon">💻</div>
-                <div class="category-name">Софт</div>
-                <div class="category-count">3 товара</div>
+            <div class="menu-item" data-page="catalog">
+                <span class="icon">🗂️</span>
+                <span class="text">Каталог</span>
+                <span class="arrow">›</span>
             </div>
-            <div class="category-card">
-                <div class="category-icon">👤</div>
-                <div class="category-name">Аккаунты</div>
-                <div class="category-count">2 товара</div>
+
+            <div class="menu-item" data-page="history">
+                <span class="icon">🕐</span>
+                <span class="text">История</span>
+                <span class="arrow">›</span>
             </div>
-            <div class="category-card">
-                <div class="category-icon">📚</div>
-                <div class="category-name">Курсы</div>
-                <div class="category-count">2 товара</div>
+
+            <div class="menu-item" data-page="tutorials">
+                <span class="icon">📝</span>
+                <span class="text">Туториалы</span>
+                <span class="arrow">›</span>
             </div>
-            <div class="category-card">
-                <div class="category-icon">⭐</div>
-                <div class="category-name">Подписки</div>
-                <div class="category-count">3 товара</div>
+
+            <div class="menu-item" data-page="referral">
+                <span class="icon">🔗</span>
+                <span class="text">Реф-система</span>
+                <span class="arrow">›</span>
+            </div>
+
+            <div class="menu-item" data-page="news">
+                <span class="icon">🔔</span>
+                <span class="text">Новости</span>
+                <span class="arrow">›</span>
+            </div>
+
+            <div class="menu-item" data-page="support">
+                <span class="icon">🛠️</span>
+                <span class="text">Тех-поддержка</span>
+                <span class="arrow">›</span>
             </div>
         </div>
     </div>
 
-    <div class="page" id="page-cart">
-        <h2>🛒 Корзина</h2>
-        <p style="color: #8b949e; margin-top: 20px;">Корзина пуста</p>
-    </div>
-
-    <div class="page" id="page-subs">
-        <h2>💎 Подписки</h2>
-        <p style="color: #8b949e; margin-top: 20px;">Нет активных подписок</p>
-    </div>
-
-    <div class="page" id="page-profile">
-        <h2>👤 Профиль</h2>
-        <p style="color: #8b949e; margin-top: 20px;">Загрузка...</p>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-text"></p>
+            <button class="close-btn" id="close-btn">Закрыть</button>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.setHeaderColor('#0e1621');
+        tg.setBackgroundColor('#0e1621');
 
         const user = tg.initDataUnsafe.user;
         if (user) {
             document.getElementById('username').textContent = '@' + (user.username || 'user');
         }
 
-        function showTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById('page-' + tabName).classList.add('active');
-        }
+        const pages = {
+            'subscriptions': {
+                title: '📋 Мои подписки',
+                text: 'Здесь будут отображаться ваши активные подписки и их статус.\n\nСейчас у вас нет активных подписок.'
+            },
+            'catalog': {
+                title: '🗂️ Каталог',
+                text: 'Просмотрите все доступные товары и услуги.\n\nРаздел в разработке — скоро здесь появится полный каталог!'
+            },
+            'history': {
+                title: ' История',
+                text: 'История ваших покупок и активностей.\n\nПока пусто — совершите первую покупку!'
+            },
+            'tutorials': {
+                title: '📝 Туториалы',
+                text: 'Обучающие материалы и инструкции по использованию.\n\nРаздел в разработке.'
+            },
+            'referral': {
+                title: ' Реферальная система',
+                text: 'Приглашайте друзей и получайте бонусы!\n\nВаша ссылка: https://t.me/ui_shop_bot?start=ref_' + (user?.id || 'unknown')
+            },
+            'news': {
+                title: '🔔 Новости',
+                text: 'Последние обновления и новости проекта.\n\nСледите за обновлениями!'
+            },
+            'support': {
+                title: '🛠️ Техническая поддержка',
+                text: 'Связаться с поддержкой: @ui_shop_bot\n\nНапишите нам, и мы поможем!'
+            }
+        };
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                const data = pages[page];
+                if (data) {
+                    document.getElementById('modal-title').textContent = data.title;
+                    document.getElementById('modal-text').textContent = data.text;
+                    document.getElementById('modal').classList.add('active');
+                }
+            });
+        });
+
+        document.getElementById('close-btn').addEventListener('click', function() {
+            document.getElementById('modal').classList.remove('active');
+        });
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        console.log('Mini App загружен!');
     </script>
 </body>
 </html>
