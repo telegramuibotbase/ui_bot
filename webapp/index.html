@@ -6,11 +6,7 @@
     <title>UI - Universal Intelligence</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -20,50 +16,31 @@
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-top: 10px;
-        }
-
-        .logo {
-            margin-bottom: 15px;
-        }
+        .header { text-align: center; margin-bottom: 25px; padding-top: 10px; }
 
         .logo-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
+            width: 80px; height: 80px;
+            margin: 0 auto 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 40px;
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
         .header h1 {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 22px; font-weight: 600; margin-bottom: 5px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .username {
-            color: #8b949e;
-            font-size: 14px;
-        }
+        .username { color: #8b949e; font-size: 14px; }
 
+        /* Главное меню */
         .menu {
             background: #17212b;
             border-radius: 12px;
@@ -72,63 +49,27 @@
         }
 
         .menu-item {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             padding: 16px 20px;
             cursor: pointer;
             transition: all 0.2s ease;
             border-bottom: 1px solid #242f3d;
         }
 
-        .menu-item:last-child {
-            border-bottom: none;
-        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: #242f3d; }
+        .menu-item:active { background: #2b3a4a; transform: scale(0.98); }
 
-        .menu-item:hover {
-            background: #242f3d;
-        }
-
-        .menu-item:active {
-            background: #2b3a4a;
-            transform: scale(0.98);
-        }
-
-        .icon {
-            font-size: 22px;
-            margin-right: 15px;
-            width: 30px;
-            text-align: center;
-        }
-
-        .text {
-            flex: 1;
-            font-size: 16px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .arrow {
-            font-size: 24px;
-            color: #8b949e;
-            font-weight: 300;
-        }
+        .icon { font-size: 22px; margin-right: 15px; width: 30px; text-align: center; }
+        .text { flex: 1; font-size: 16px; font-weight: 500; color: #ffffff; }
+        .arrow { font-size: 24px; color: #8b949e; font-weight: 300; }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .menu-item {
-            animation: slideIn 0.3s ease forwards;
-            opacity: 0;
-        }
-
+        .menu-item { animation: slideIn 0.3s ease forwards; opacity: 0; }
         .menu-item:nth-child(1) { animation-delay: 0.05s; }
         .menu-item:nth-child(2) { animation-delay: 0.1s; }
         .menu-item:nth-child(3) { animation-delay: 0.15s; }
@@ -137,128 +78,417 @@
         .menu-item:nth-child(6) { animation-delay: 0.3s; }
         .menu-item:nth-child(7) { animation-delay: 0.35s; }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        /* Экраны */
+        .screen { display: none; }
+        .screen.active { display: block; animation: slideIn 0.3s ease; }
+
+        /* Шапка экрана с кнопкой назад */
+        .screen-header {
+            display: flex; align-items: center;
+            margin-bottom: 20px;
         }
 
-        .modal.active {
-            display: flex;
+        .back-btn {
+            background: #17212b;
+            border: none;
+            color: #667eea;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-right: 12px;
+            transition: all 0.2s;
         }
 
-        .modal-content {
+        .back-btn:hover { background: #242f3d; }
+        .back-btn:active { transform: scale(0.95); }
+
+        .screen-title { font-size: 22px; font-weight: 700; }
+
+        /* Категории */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .category-card {
             background: #17212b;
             border-radius: 12px;
-            padding: 30px;
-            max-width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
+            padding: 20px 15px;
             text-align: center;
-            border: 1px solid #667eea;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #242f3d;
         }
 
-        .modal-content h2 {
-            margin-bottom: 15px;
-            color: #667eea;
-            font-size: 20px;
+        .category-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .modal-content p {
-            color: #8b949e;
-            line-height: 1.6;
-            font-size: 14px;
+        .category-card:active { transform: scale(0.97); }
+
+        .category-icon { font-size: 36px; margin-bottom: 10px; }
+        .category-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .category-count { font-size: 12px; color: #8b949e; }
+
+        /* Товары */
+        .products-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .product-card {
+            background: #17212b;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex; align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #242f3d;
         }
 
-        .close-btn {
-            margin-top: 20px;
-            padding: 10px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .product-card:hover { border-color: #667eea; }
+        .product-card:active { transform: scale(0.98); }
+
+        .product-icon { font-size: 32px; margin-right: 12px; width: 40px; text-align: center; }
+        .product-info { flex: 1; }
+        .product-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+        .product-desc { font-size: 12px; color: #8b949e; line-height: 1.3; }
+        .product-price {
+            font-size: 16px; font-weight: 700;
+            color: #667eea; white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        /* Корзина */
+        .cart-item {
+            background: #17212b;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex; align-items: center;
+            border: 1px solid #242f3d;
+        }
+
+        .cart-item-icon { font-size: 28px; margin-right: 12px; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .cart-item-price { font-size: 12px; color: #8b949e; }
+
+        .cart-remove {
+            background: #242f3d;
             border: none;
+            color: #ff4757;
+            font-size: 18px;
+            cursor: pointer;
+            width: 32px; height: 32px;
             border-radius: 8px;
-            color: white;
-            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .cart-remove:hover { background: #ff4757; color: white; }
+
+        .cart-total {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .cart-total-text { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+        .cart-total-text span { color: #fff; font-size: 22px; }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            color: #667eea;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
             transition: transform 0.2s;
         }
 
-        .close-btn:hover {
-            transform: scale(1.05);
+        .checkout-btn:hover { transform: scale(1.02); }
+        .checkout-btn:active { transform: scale(0.98); }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8b949e;
         }
 
-        .close-btn:active {
-            transform: scale(0.98);
+        .empty-icon { font-size: 60px; margin-bottom: 15px; opacity: 0.5; }
+        .empty-state p { font-size: 15px; margin-bottom: 8px; }
+        .empty-state .hint { font-size: 13px; color: #5a6470; }
+
+        /* Модальное окно товара */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            padding: 20px;
         }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: #17212b;
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 400px; width: 100%;
+            text-align: center;
+            border: 1px solid #667eea;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-icon { font-size: 70px; margin-bottom: 15px; }
+        .modal-content h2 { font-size: 22px; margin-bottom: 8px; }
+        .modal-category { color: #667eea; font-size: 13px; margin-bottom: 12px; }
+        .modal-desc { color: #8b949e; font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+        .modal-price {
+            font-size: 28px; font-weight: 700;
+            color: #667eea; margin-bottom: 20px;
+        }
+
+        .modal-buy {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .modal-buy:hover { transform: scale(1.02); }
+        .modal-buy:active { transform: scale(0.98); }
+
+        .modal-close-btn {
+            width: 100%;
+            padding: 12px;
+            background: #242f3d;
+            border: none;
+            border-radius: 10px;
+            color: #8b949e;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Бейдж корзины */
+        .cart-badge-wrap { position: relative; }
+        .cart-badge {
+            position: absolute;
+            top: -6px; right: -10px;
+            background: #ff4757;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 20px; height: 20px;
+            border-radius: 10px;
+            display: none;
+            align-items: center; justify-content: center;
+            padding: 0 5px;
+        }
+        .cart-badge.show { display: flex; }
+
+        /* Заглушка для других разделов */
+        .placeholder {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8b949e;
+        }
+        .placeholder-icon { font-size: 60px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">
-                <div class="logo-icon">🧠</div>
-            </div>
+            <div class="logo-icon"></div>
             <h1>UI - Universal Intelligence</h1>
             <p class="username" id="username">@user</p>
         </div>
 
-        <div class="menu">
-            <div class="menu-item" data-page="subscriptions">
-                <span class="icon">📋</span>
-                <span class="text">Мои подписки</span>
-                <span class="arrow">›</span>
+        <!-- ГЛАВНОЕ МЕНЮ -->
+        <div class="screen active" id="screen-main">
+            <div class="menu">
+                <div class="menu-item" data-page="subscriptions">
+                    <span class="icon">📋</span>
+                    <span class="text">Мои подписки</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="catalog">
+                    <span class="icon">🗂️</span>
+                    <span class="text">Каталог</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="cart">
+                    <span class="icon cart-badge-wrap">
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </span>
+                    <span class="text">Корзина</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="history">
+                    <span class="icon">🕐</span>
+                    <span class="text">История</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="tutorials">
+                    <span class="icon">📝</span>
+                    <span class="text">Туториалы</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="referral">
+                    <span class="icon">🔗</span>
+                    <span class="text">Реф-система</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="news">
+                    <span class="icon">🔔</span>
+                    <span class="text">Новости</span>
+                    <span class="arrow">›</span>
+                </div>
+                <div class="menu-item" data-page="support">
+                    <span class="icon">🛠️</span>
+                    <span class="text">Тех-поддержка</span>
+                    <span class="arrow">›</span>
+                </div>
             </div>
+        </div>
 
-            <div class="menu-item" data-page="catalog">
-                <span class="icon">🗂️</span>
-                <span class="text">Каталог</span>
-                <span class="arrow">›</span>
+        <!-- ЭКРАН КАТАЛОГА (категории) -->
+        <div class="screen" id="screen-catalog">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title">🗂️ Каталог</div>
             </div>
+            <div class="categories-grid" id="categories-grid"></div>
+        </div>
 
-            <div class="menu-item" data-page="history">
-                <span class="icon">🕐</span>
-                <span class="text">История</span>
-                <span class="arrow">›</span>
+        <!-- ЭКРАН ТОВАРОВ КАТЕГОРИИ -->
+        <div class="screen" id="screen-products">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('catalog')">◀</button>
+                <div class="screen-title" id="category-title">Категория</div>
             </div>
+            <div class="products-list" id="products-list"></div>
+        </div>
 
-            <div class="menu-item" data-page="tutorials">
-                <span class="icon">📝</span>
-                <span class="text">Туториалы</span>
-                <span class="arrow">›</span>
+        <!-- ЭКРАН КОРЗИНЫ -->
+        <div class="screen" id="screen-cart">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')"></button>
+                <div class="screen-title">🛒 Корзина</div>
             </div>
-
-            <div class="menu-item" data-page="referral">
-                <span class="icon">🔗</span>
-                <span class="text">Реф-система</span>
-                <span class="arrow">›</span>
+            <div id="cart-items"></div>
+            <div class="cart-total" id="cart-total" style="display: none;">
+                <div class="cart-total-text">Итого: <span id="total-sum">0</span> ₽</div>
+                <button class="checkout-btn" onclick="checkout()">Оформить заказ</button>
             </div>
-
-            <div class="menu-item" data-page="news">
-                <span class="icon">🔔</span>
-                <span class="text">Новости</span>
-                <span class="arrow">›</span>
+            <div class="empty-state" id="cart-empty">
+                <div class="empty-icon">🛒</div>
+                <p>Корзина пуста</p>
+                <p class="hint">Добавь товары из каталога</p>
             </div>
+        </div>
 
-            <div class="menu-item" data-page="support">
-                <span class="icon">🛠️</span>
-                <span class="text">Тех-поддержка</span>
-                <span class="arrow">›</span>
+        <!-- ЭКРАН ПОДПИСОК -->
+        <div class="screen" id="screen-subscriptions">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')"></button>
+                <div class="screen-title">📋 Мои подписки</div>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon"></div>
+                <p>У тебя пока нет активных подписок</p>
+                <p class="hint">Купи товар в каталоге, чтобы получить подписку</p>
+            </div>
+        </div>
+
+        <!-- ЗАГЛУШКИ ДЛЯ ДРУГИХ РАЗДЕЛОВ -->
+        <div class="screen" id="screen-history">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title">🕐 История</div>
+            </div>
+            <div class="placeholder">
+                <div class="placeholder-icon">🕐</div>
+                <p>История покупок пуста</p>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-tutorials">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title">📝 Туториалы</div>
+            </div>
+            <div class="placeholder">
+                <div class="placeholder-icon"></div>
+                <p>Раздел в разработке</p>
+                <p class="hint">Скоро здесь появятся обучающие материалы</p>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-referral">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title">🔗 Реф-система</div>
+            </div>
+            <div class="placeholder">
+                <div class="placeholder-icon">🔗</div>
+                <p>Приглашай друзей и получай бонусы!</p>
+                <p class="hint" id="ref-link">Твоя ссылка: загрузка...</p>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-news">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title"> Новости</div>
+            </div>
+            <div class="placeholder">
+                <div class="placeholder-icon">📰</div>
+                <p>Новостей пока нет</p>
+                <p class="hint">Следи за обновлениями!</p>
+            </div>
+        </div>
+
+        <div class="screen" id="screen-support">
+            <div class="screen-header">
+                <button class="back-btn" onclick="showScreen('main')">◀</button>
+                <div class="screen-title">🛠️ Тех-поддержка</div>
+            </div>
+            <div class="placeholder">
+                <div class="placeholder-icon">💬</div>
+                <p>Нужна помощь?</p>
+                <p class="hint">Напиши нам: @ui_shop_bot</p>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="modal">
+    <!-- МОДАЛКА ТОВАРА -->
+    <div class="modal" id="product-modal">
         <div class="modal-content">
+            <div class="modal-icon" id="modal-icon"></div>
             <h2 id="modal-title"></h2>
-            <p id="modal-text"></p>
-            <button class="close-btn" id="close-btn">Закрыть</button>
+            <div class="modal-category" id="modal-category"></div>
+            <div class="modal-desc" id="modal-desc"></div>
+            <div class="modal-price" id="modal-price"></div>
+            <button class="modal-buy" id="modal-buy">🛒 Добавить в корзину</button>
+            <button class="modal-close-btn" onclick="closeModal()">Закрыть</button>
         </div>
     </div>
 
@@ -273,60 +503,218 @@
             document.getElementById('username').textContent = '@' + (user.username || 'user');
         }
 
-        const pages = {
-            'subscriptions': {
-                title: '📋 Мои подписки',
-                text: 'Здесь будут отображаться ваши активные подписки и их статус.\n\nСейчас у вас нет активных подписок.'
-            },
-            'catalog': {
-                title: '🗂️ Каталог',
-                text: 'Просмотрите все доступные товары и услуги.\n\nРаздел в разработке — скоро здесь появится полный каталог!'
-            },
-            'history': {
-                title: ' История',
-                text: 'История ваших покупок и активностей.\n\nПока пусто — совершите первую покупку!'
-            },
-            'tutorials': {
-                title: '📝 Туториалы',
-                text: 'Обучающие материалы и инструкции по использованию.\n\nРаздел в разработке.'
-            },
-            'referral': {
-                title: ' Реферальная система',
-                text: 'Приглашайте друзей и получайте бонусы!\n\nВаша ссылка: https://t.me/ui_shop_bot?start=ref_' + (user?.id || 'unknown')
-            },
-            'news': {
-                title: '🔔 Новости',
-                text: 'Последние обновления и новости проекта.\n\nСледите за обновлениями!'
-            },
-            'support': {
-                title: '🛠️ Техническая поддержка',
-                text: 'Связаться с поддержкой: @ui_shop_bot\n\nНапишите нам, и мы поможем!'
+        // ДАННЫЕ КАТАЛОГА
+        const catalog = {
+            categories: [
+                { id: 'soft', name: 'Софт', icon: '💻' },
+                { id: 'accounts', name: 'Аккаунты', icon: '👤' },
+                { id: 'courses', name: 'Курсы', icon: '📚' },
+                { id: 'subscriptions', name: 'Подписки', icon: '⭐' },
+            ],
+            products: {
+                soft: [
+                    { id: 1, name: 'PyCleaner Pro', desc: 'Аналог CCleaner на Python. Полная очистка системы.', price: 500, icon: '🧹' },
+                    { id: 2, name: 'Telegram Bot Template', desc: 'Готовый шаблон бота с Mini App и оплатой.', price: 300, icon: '🤖' },
+                    { id: 3, name: 'AutoClicker', desc: 'Автоматизация кликов с гибкими настройками.', price: 200, icon: '🖱️' },
+                ],
+                accounts: [
+                    { id: 4, name: 'Steam Аккаунт', desc: 'Аккаунт с 50+ играми, полный доступ.', price: 1500, icon: '🎮' },
+                    { id: 5, name: 'Discord Nitro', desc: 'Nitro на 1 месяц, моментальная выдача.', price: 350, icon: '💬' },
+                ],
+                courses: [
+                    { id: 6, name: 'Python с нуля', desc: 'Полный курс Python: от основ до профи.', price: 2000, icon: '' },
+                    { id: 7, name: 'Telegram Боты', desc: 'Создание ботов на aiogram 3.x.', price: 1500, icon: '🤖' },
+                ],
+                subscriptions: [
+                    { id: 8, name: 'Netflix Premium', desc: 'Личный аккаунт Netflix на 30 дней.', price: 400, icon: '🎬' },
+                    { id: 9, name: 'Spotify Premium', desc: 'Spotify без рекламы на месяц.', price: 250, icon: '🎵' },
+                    { id: 10, name: 'YouTube Premium', desc: 'YouTube без рекламы + Music.', price: 300, icon: '▶️' },
+                ],
             }
         };
 
-        document.querySelectorAll('.menu-item').forEach(item => {
+        let cart = [];
+        let currentProduct = null;
+
+        // НАВИГАЦИЯ МЕЖДУ ЭКРАНАМИ
+        function showScreen(name) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + name).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // ОБРАБОТКА КЛИКОВ ПО ГЛАВНОМУ МЕНЮ
+        document.querySelectorAll('#screen-main .menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 const page = this.getAttribute('data-page');
-                const data = pages[page];
-                if (data) {
-                    document.getElementById('modal-title').textContent = data.title;
-                    document.getElementById('modal-text').textContent = data.text;
-                    document.getElementById('modal').classList.add('active');
+                if (page === 'catalog') {
+                    renderCategories();
+                    showScreen('catalog');
+                } else if (page === 'cart') {
+                    renderCart();
+                    showScreen('cart');
+                } else if (page === 'subscriptions') {
+                    showScreen('subscriptions');
+                } else if (page === 'history') {
+                    showScreen('history');
+                } else if (page === 'tutorials') {
+                    showScreen('tutorials');
+                } else if (page === 'referral') {
+                    const refLink = 'https://t.me/ui_shop_bot?start=ref_' + (user?.id || 'unknown');
+                    document.getElementById('ref-link').textContent = 'Твоя ссылка: ' + refLink;
+                    showScreen('referral');
+                } else if (page === 'news') {
+                    showScreen('news');
+                } else if (page === 'support') {
+                    showScreen('support');
                 }
             });
         });
 
-        document.getElementById('close-btn').addEventListener('click', function() {
-            document.getElementById('modal').classList.remove('active');
-        });
+        // РЕНДЕР КАТЕГОРИЙ
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = '';
+            catalog.categories.forEach(cat => {
+                const count = catalog.products[cat.id]?.length || 0;
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <div class="category-icon">${cat.icon}</div>
+                    <div class="category-name">${cat.name}</div>
+                    <div class="category-count">${count} товаров</div>
+                `;
+                card.onclick = () => showProducts(cat.id);
+                grid.appendChild(card);
+            });
+        }
 
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
+        // ПОКАЗАТЬ ТОВАРЫ КАТЕГОРИИ
+        function showProducts(categoryId) {
+            const category = catalog.categories.find(c => c.id === categoryId);
+            const products = catalog.products[categoryId] || [];
+            
+            document.getElementById('category-title').textContent = category.icon + ' ' + category.name;
+            
+            const list = document.getElementById('products-list');
+            list.innerHTML = '';
+            
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-icon">${p.icon}</div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                    </div>
+                    <div class="product-price">${p.price} ₽</div>
+                `;
+                card.onclick = () => openProduct(p, category);
+                list.appendChild(card);
+            });
+            
+            showScreen('products');
+        }
+
+        // ОТКРЫТЬ ТОВАР
+        function openProduct(product, category) {
+            currentProduct = product;
+            document.getElementById('modal-icon').textContent = product.icon;
+            document.getElementById('modal-title').textContent = product.name;
+            document.getElementById('modal-category').textContent = category.icon + ' ' + category.name;
+            document.getElementById('modal-desc').textContent = product.desc;
+            document.getElementById('modal-price').textContent = product.price + ' ₽';
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+            currentProduct = null;
+        }
+
+        document.getElementById('modal-buy').onclick = function() {
+            if (currentProduct) {
+                addToCart(currentProduct);
+                closeModal();
             }
-        });
+        };
 
-        console.log('Mini App загружен!');
+        document.getElementById('product-modal').onclick = function(e) {
+            if (e.target === this) closeModal();
+        };
+
+        // КОРЗИНА
+        function addToCart(product) {
+            cart.push({...product, cartId: Date.now()});
+            updateCartBadge();
+            tg.HapticFeedback?.notificationOccurred('success');
+            tg.showPopup?.({
+                title: '✅ Добавлено!',
+                message: `${product.name} добавлен в корзину`,
+                buttons: [{type: 'ok'}]
+            });
+        }
+
+        function removeFromCart(cartId) {
+            cart = cart.filter(item => item.cartId !== cartId);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            if (cart.length > 0) {
+                badge.textContent = cart.length;
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const totalBlock = document.getElementById('cart-total');
+            const emptyBlock = document.getElementById('cart-empty');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                totalBlock.style.display = 'none';
+                emptyBlock.style.display = 'block';
+                return;
+            }
+            
+            emptyBlock.style.display = 'none';
+            totalBlock.style.display = 'block';
+            
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-icon">${item.icon}</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${item.price} ₽</div>
+                    </div>
+                    <button class="cart-remove" onclick="removeFromCart(${item.cartId})">✕</button>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('total-sum').textContent = total;
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const items = cart.map(i => i.name).join(', ');
+            
+            tg.showPopup?.({
+                title: ' Оформление заказа',
+                message: `Сумма: ${total} ₽\nТовары: ${items}\n\n⚠️ Оплата пока в тестовом режиме. На следующем этапе подключим ЮMoney.`,
+                buttons: [{type: 'ok', text: 'Понятно'}]
+            });
+        }
+
+        console.log('✅ Mini App загружен!');
     </script>
 </body>
 </html>
